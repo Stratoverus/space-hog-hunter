@@ -1,33 +1,25 @@
 # space-hog-hunter
 # Overview
 
-{Important! Do not say in this section that this is college assignment. Talk about what you are trying to accomplish as a software engineer to further your learning.}
+Space Hog Hunter is a tool I built to help track down those massive files and folders that eat up disk space. I wanted to get hands-on with Rust and see what it’s like to work with its unique approach to memory safety and error handling, so I figured a disk space analyzer would be a fun way to learn.
 
-{Provide a description of the software that you wrote to demonstrate the Rust language.}
+While building this, I learned a lot about how Rust handles file operations, directory traversal, and how its strict rules actually help you write safer code. The project gave me a chance to experiment with Rust’s ownership model, pattern matching, and its ecosystem of crates.
 
-{Describe your purpose for writing this software.}
-
-{Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running and a walkthrough of the code. Focus should be on sharing what you learned about the language syntax.}
+My main goal was to get comfortable with Rust by making something useful, and to share what I picked up along the way. If you’re curious about how it works or want to see the code in action, check out my demo video below.
 
 [Software Demo Video](http://youtube.link.goes.here)
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+I coded this in Visual Studio Code, and I the extension rust-analyzer.
 
-{Describe the programming language that you used and any libraries.}
+I did need to make sure I had cargo installed as well.
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
-
-- [Web Site Name](http://url.link.goes.here)
-- [Web Site Name](http://url.link.goes.here)
+- [Learning Rust](https://www.rust-lang.org/learn)
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-
-- Item 1
-- Item 2
-- Item 3
+- Make it so that it can delete files
+- Add functionality to be a bit more dynamic in terms of finding game directories
