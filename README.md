@@ -7,7 +7,7 @@ While building this, I learned a lot about how Rust handles file operations, dir
 
 My main goal was to get comfortable with Rust by making something useful, and to share what I picked up along the way. If you’re curious about how it works or want to see the code in action, check out my demo video below.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/F3UU_twobjE)
 
 # Development Environment
 
