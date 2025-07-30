@@ -2,6 +2,7 @@ use std::io::{self, Write};
 use walkdir::WalkDir;
 use std::path::Path;
 
+//Main function and loop for program
 fn main() {
     loop {
         println!("\nMenu:");
@@ -106,10 +107,10 @@ fn main() {
                         }
                     }
                 }
-                // Always add default Steam library
+                //Always add default Steam library
                 steam_libraries.push(String::from("C:/Program Files (x86)/Steam/steamapps/common"));
                 for lib in &steam_libraries {
-                    // Always scan only steamapps/common for each Steam library
+                    //Always scan only steamapps/common for each Steam library
                     let steamapps_common = if lib.ends_with("common") {
                         lib.clone()
                     } else if lib.ends_with("steamapps") {
@@ -124,7 +125,7 @@ fn main() {
                 }
                 // --- End Steam library detection ---
                 if scan_choice == "a" {
-                    // Scan all available drives for other launchers
+                    //Scan all available drives for other launchers
                     let available_drives = list_available_drives().into_iter().map(|(_, d)| d).collect::<Vec<_>>();
                     if available_drives.is_empty() {
                         println!("No drives found.");
@@ -138,7 +139,7 @@ fn main() {
                         }
                     }
                 } else {
-                    // Default to C: only for other launchers
+                    //Default to C: only for other launchers
                     let c_drive = "C:/";
                     for dir in &game_dirs {
                         let full_path = format!("{}{}", c_drive, dir);
@@ -149,14 +150,14 @@ fn main() {
                 if all_subdirs.is_empty() {
                     println!("No subdirectories found or no files in game directories.");
                 } else {
-                    // Normalize and deduplicate paths
+                    //Normalize and deduplicate paths
                     let mut deduped = normalize_and_dedup_paths(&all_subdirs);
                     deduped.sort_by(|a, b| b.1.cmp(&a.1));
                     println!("\nTop 10 largest subdirectories across game directories:");
                     for (i, (subdir, size)) in deduped.iter().take(10).enumerate() {
                         println!("{}. {} - {}", i + 1, subdir, human_readable_size(*size));
                     }
-                    // Investigation loop
+                    //Investigation loop
                     investigation_loop(&deduped);
                 }
             },
@@ -201,7 +202,7 @@ fn main() {
         }
     }
 
-// Helper: Finds and returns the largest 'useless' files in a directory
+//Finds and returns the largest 'useless' files in a directory
 fn find_useless_files_in_dir(dir: &str) -> Vec<(String, u64)> {
     use std::ffi::OsStr;
     let useless_exts = [
@@ -227,7 +228,7 @@ fn find_useless_files_in_dir(dir: &str) -> Vec<(String, u64)> {
     files
 }
 
-
+//Asks what directory to analyze
 fn prompt_directory() -> String {
     println!("Enter the directory to analyze:");
     let mut input = String::new();
@@ -240,6 +241,7 @@ fn prompt_directory() -> String {
     dir
 }
 
+//Analyze specified directory 
 fn analyze_largest_files(dir: &str) {
     if !Path::new(dir).is_dir() {
         println!("{} is not a valid directory.", dir);
@@ -276,7 +278,7 @@ fn analyze_largest_files(dir: &str) {
     }
 }
 
-// Returns a Vec of (subdir, total_size) for the largest immediate subdirectories
+//Returns a Vec of (subdir, total_size) for the largest immediate subdirectories
 fn get_largest_subdirectories(dir: &str, top_n: usize) -> Vec<(String, u64)> {
     use std::collections::HashMap;
     use std::path::PathBuf;
@@ -305,7 +307,7 @@ fn get_largest_subdirectories(dir: &str, top_n: usize) -> Vec<(String, u64)> {
     dir_sizes_vec.into_iter().take(top_n).collect()
 }
 
-// Shows the largest files in a given directory
+//Shows the largest files in a given directory
 fn show_largest_files_in_dir(dir: &str, top_n: usize) {
     if !Path::new(dir).is_dir() {
         println!("{} is not a valid directory.", dir);
@@ -318,7 +320,7 @@ fn show_largest_files_in_dir(dir: &str, top_n: usize) {
             largest_files.push((entry.path().display().to_string(), size));
         }
     }
-    // Also include files in subdirectories
+    //Also include files in subdirectories
     for entry in WalkDir::new(dir).min_depth(2).into_iter().filter_map(|e| e.ok()) {
         if entry.file_type().is_file() {
             let size = entry.metadata().map(|m| m.len()).unwrap_or(0);
@@ -347,7 +349,7 @@ fn human_readable_size(bytes: u64) -> String {
     }
 }
 
-// Helper: List available drives
+//List available drives
 fn list_available_drives() -> Vec<(char, String)> {
     let mut available_drives = Vec::new();
     for letter in b'A'..=b'Z' {
@@ -359,7 +361,7 @@ fn list_available_drives() -> Vec<(char, String)> {
     available_drives
 }
 
-// Helper: Investigation loop for selecting subdirectories/files
+//Investigation loop for selecting subdirectories/files
 fn investigation_loop(subdirs: &Vec<(String, u64)>) {
     loop {
         println!("\nEnter the number of a subdirectory to see its largest 10 files, or 'm' to return to the main menu:");
@@ -381,7 +383,7 @@ fn investigation_loop(subdirs: &Vec<(String, u64)>) {
     }
 }
 
-// Helper: Normalize and deduplicate paths
+//Normalize and deduplicate paths, helpful because for some reason, steam libraries were showing up funny.
 fn normalize_and_dedup_paths(subdirs: &Vec<(String, u64)>) -> Vec<(String, u64)> {
     use std::collections::HashSet;
     let mut seen = HashSet::new();
